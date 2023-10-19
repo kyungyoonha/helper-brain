@@ -10,7 +10,7 @@ const Home = () => {
   const [cardList, setCardList] = useState([]);
 
   const getCardList = async () => {
-    const result = await axios.get("/api/GetNeuronList");
+    const result = await axios.get("/GetNeuronList");
     if (result.data.ok) {
       setCardList(result.data.data);
     }

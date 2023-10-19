@@ -14,23 +14,23 @@ import { AxiosResponse } from "axios";
 export const getNeuronListAPI = (): Promise<
   AxiosResponse<GetNeuronListResult>
 > => {
-  return api.get(`${BACK_URL}/GetNeuronList`);
+  return api.get(`/GetNeuronList`);
 };
 
 export const getDashboardAPI = (): Promise<
   AxiosResponse<GetNeuronListResult>
 > => {
-  return api.get(`${BACK_URL}/GetDashboard`);
+  return api.get(`/GetDashboard`);
 };
 
 export const updateNeuronCorrectAPI = (
   data: UpdatedNeuronCorrectParams
 ): Promise<AxiosResponse<UpdateNeuronCorrectResult>> => {
-  return api.post(`${BACK_URL}/UpdateNeuronCorrect`, data);
+  return api.post(`/UpdateNeuronCorrect`, data);
 };
 
 export const updateNeuronIncorrectAPI = (
   data: UpdatedNeuronIncorrectParams
 ): Promise<AxiosResponse<UpdateNeuronIncorrectResult>> => {
-  return api.post(`${BACK_URL}/UpdateNeuronInCorrect`, data);
+  return api.post(`/UpdateNeuronInCorrect`, data);
 };

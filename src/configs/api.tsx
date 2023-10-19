@@ -5,7 +5,7 @@ import { BACK_URL } from "@/configs";
 //   typeof window !== 'undefined' ? localStorage.getItem('accessToken') : ''
 
 const api = axios.create({
-  baseURL: BACK_URL,
+  baseURL: BACK_URL + "/api",
   // headers: {
   //   Authorization: `Bearer ${token}`,
   // },
