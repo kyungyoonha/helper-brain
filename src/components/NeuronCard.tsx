@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Neuron } from "@/types";
 import NeuronAnswerCard from "./NeuronAnswerCard";
 import { useUIContext } from "@/contexts";
+import { SCREENS } from "@/configs";
 
 interface Props {
   data: Neuron;
@@ -111,7 +112,15 @@ const NeuronCard = ({ data }: Props) => {
 export default NeuronCard;
 
 const Wrapper = styled.div`
-  transition: 6s;
+  width: 600px;
+
+  @media (max-width: ${SCREENS.lg}) {
+    width: 450px;
+  }
+
+  @media (max-width: ${SCREENS.md}) {
+    width: 100%;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -126,7 +135,7 @@ const ImageInnerWrapper = styled.div`
   background-color: #898884;
   border-radius: 15px;
   height: 450px;
-  width: 600px;
+  width: 100%;
   position: relative;
 
   img {

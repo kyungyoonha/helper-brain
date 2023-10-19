@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "./Header";
+import { SCREENS } from "@/configs";
 
 interface Props {
   children: React.ReactNode;
@@ -24,6 +25,14 @@ const Wrapper = styled.div`
 `;
 
 const InnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 30px;
-  max-width: 700px;
+  width: 100%;
+  min-width: 350px;
+
+  @media (max-width: ${SCREENS.md}) {
+    padding: 15px;
+  }
 `;
