@@ -30,12 +30,21 @@ export default async function handler(
 ) {
   try {
     await doc.loadInfo();
-    let sheet = doc.sheetsByTitle["DASHBOARD"];
-    let rows = await sheet.getRows();
-    let dataList = rows.map((row) => row.toObject());
+    let dashboardSheet = doc.sheetsByTitle["DASHBOARD"];
+    let dashboardRows = await dashboardSheet.getRows();
+    let dashboardList = dashboardRows.map((row) => row.toObject());
     let updatedAt = dayjs(new Date()).format("YYYY-MM-DD");
+    let dashboard = dashboardList.find((item) => item.date === updatedAt);
 
-    let dashboard = dataList.find((item) => item.date === updatedAt);
+    if (!dashboard) {
+      dashboard = {
+        id: "-",
+        date: updatedAt,
+        totalCorrectCount: 0,
+        totalIncorrectCount: 0,
+        total: 0,
+      };
+    }
 
     res.status(200).json({
       ok: true,

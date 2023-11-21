@@ -1,47 +1,42 @@
 "use client";
-
-import Header from "@/components/Header";
-import { Card } from "antd";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import NeuronCard from "@/components/NeuronCard";
+import Layout from "@/components/Layout";
+import { Image } from "antd";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useUIContext } from "@/contexts";
 
-const Home = () => {
-  const [cardList, setCardList] = useState([]);
+import NeuronCardLoading from "@/components/NeuronCardLoading";
 
-  const getCardList = async () => {
-    const result = await axios.get("/GetNeuronList");
-    if (result.data.ok) {
-      setCardList(result.data.data);
-    }
-  };
+const HomePage = () => {
+  const {
+    neuronList,
+    incorrectList,
+    getNeuronListLoading,
+    getNeuronList,
+    getDashboard,
+    dispatch,
+  } = useUIContext();
 
   useEffect(() => {
-    getCardList();
-  }, []);
+    getNeuronList(dispatch);
+    getDashboard(dispatch);
+  }, [getDashboard, getNeuronList, dispatch]);
 
   return (
-    <Wrapper>
-      <Header />
-
-      <BodyWrapper>
-        <Card title="제목" bordered={false} style={{ height: "500px" }}>
-          ㄹㄷㅈfewfewfwe
-        </Card>
-      </BodyWrapper>
-    </Wrapper>
+    <Layout>
+      {getNeuronListLoading ? (
+        <NeuronCardLoading loading={getNeuronListLoading} repeatNumber={3} />
+      ) : (
+        neuronList.map((neuron) => <NeuronCard key={neuron.id} data={neuron} />)
+      )}
+    </Layout>
   );
 };
-export default Home;
+export default HomePage;
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const BodyWrapper = styled.div`
-  padding: 30px;
-  width: 100%;
-  flex: 1;
+const StyledImage = styled(Image)`
+  max-width: 100%;
+  min-width: 500px;
+  width: calc((100vh + -325px) * 0.751503);
 `;

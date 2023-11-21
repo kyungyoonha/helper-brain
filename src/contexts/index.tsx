@@ -84,6 +84,13 @@ const reducer = (state: State = initialState, action: Action): State => {
         getNeuronListDone: true,
         neuronList: action.payload.neuronList,
         incorrectList: action.payload.incorrectList,
+        dashboard: {
+          ...state.dashboard,
+          total:
+            state.dashboard.total === 0
+              ? action.payload.neuronList.length
+              : state.dashboard.total,
+        },
       };
     case ActionType.GET_NEURON_LIST_FAILURE:
       return {

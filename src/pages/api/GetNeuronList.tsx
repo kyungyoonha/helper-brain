@@ -43,7 +43,6 @@ export default async function handler(
     result.forEach((neuron) => {
       const updatedAt = new Date(neuron.updatedAt);
       const dateDiff = getDateDiffFromToday(updatedAt);
-      console.log(neuron.star, dateDiff);
       if (Number(neuron.star) === 7 && dateDiff >= 64) neuronList.push(neuron);
       if (Number(neuron.star) === 6 && dateDiff >= 32) neuronList.push(neuron);
       if (Number(neuron.star) === 5 && dateDiff >= 16) neuronList.push(neuron);
