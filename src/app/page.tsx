@@ -1,22 +1,23 @@
 "use client";
 import NeuronCard from "@/components/NeuronCard";
 import Layout from "@/components/Layout";
-import { Image } from "antd";
 import React, { useEffect } from "react";
-import styled from "styled-components";
 import { useUIContext } from "@/contexts";
 
 import NeuronCardLoading from "@/components/NeuronCardLoading";
+import { useSession } from "next-auth/react";
 
 const HomePage = () => {
   const {
     neuronList,
-    incorrectList,
     getNeuronListLoading,
     getNeuronList,
     getDashboard,
     dispatch,
   } = useUIContext();
+
+  const { data: session } = useSession();
+  console.log(session);
 
   useEffect(() => {
     getNeuronList(dispatch);
@@ -33,10 +34,5 @@ const HomePage = () => {
     </Layout>
   );
 };
-export default HomePage;
 
-const StyledImage = styled(Image)`
-  max-width: 100%;
-  min-width: 500px;
-  width: calc((100vh + -325px) * 0.751503);
-`;
+export default HomePage;

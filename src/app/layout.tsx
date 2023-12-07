@@ -1,8 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import StyledComponentsRegistry from "@/lib/registry";
+import RegistryStyledComponents from "@/lib/registryStyledComponent";
+import RegistryAntd from "@/lib/registryAntd";
 import { UIProvider } from "@/contexts";
+import AuthContext from "@/contexts/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +21,13 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <UIProvider>
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-        </UIProvider>
+        <RegistryStyledComponents>
+          <RegistryAntd>
+            <UIProvider>
+              <AuthContext>{children}</AuthContext>
+            </UIProvider>
+          </RegistryAntd>
+        </RegistryStyledComponents>
       </body>
     </html>
   );

@@ -12,6 +12,9 @@ const nextConfig = {
       "pbs.twimg.com",
       "cdn.crowdpic.net",
       "i.pinimg.com",
+      "lh3.googleusercontent.com",
+      "k.kakaocdn.net",
+      "ssl.pstatic.net",
     ],
   },
 };
