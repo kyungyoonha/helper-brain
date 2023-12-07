@@ -17,11 +17,13 @@ const HomePage = () => {
   } = useUIContext();
 
   const { data: session } = useSession();
-  console.log(session);
 
   useEffect(() => {
     getNeuronList(dispatch);
     getDashboard(dispatch);
+    fetch("/api/get-neurons", {
+      method: "GET",
+    });
   }, [getDashboard, getNeuronList, dispatch]);
 
   return (

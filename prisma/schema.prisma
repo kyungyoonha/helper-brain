@@ -9,12 +9,21 @@ datasource db {
 }
 
 model Neuron {
-  id          Int      @id @default(autoincrement())
-  description String   @db.MediumText
-  imageUrl    String   @db.MediumText
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  score       Int
+  id          Int       @id @default(autoincrement())
+  description String    @db.MediumText
+  imageUrl    String?   @db.MediumText
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  score       Int       @default(1)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  answers     Answer[]
+  hints       Hint[]
+  categories  CategoriesOnNeurons[]
+  dashboards  DashboardOnNeurons[]
+  
+  
+  @@index([userId])
 }
 
 model Answer {
@@ -22,7 +31,11 @@ model Answer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   answer    String   @db.MediumText
-  image     String   @db.MediumText
+  imageUrl  String?   @db.MediumText
+  neuron    Neuron   @relation(fields: [neuronId], references: [id], onDelete: Cascade)
+  neuronId  Int
+  
+  @@index([neuronId])
 }
 
 model Hint {
@@ -30,7 +43,11 @@ model Hint {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   hint      String   @db.MediumText
-  image     String   @db.MediumText
+  imageUrl  String?  @db.MediumText
+  neuron    Neuron   @relation(fields: [neuronId], references: [id], onDelete: Cascade)
+  neuronId  Int
+
+  @@index([neuronId])
 }
 
 model Category {
@@ -38,6 +55,42 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   category  String
+  neurons   CategoriesOnNeurons[]
+}
+
+model CategoriesOnNeurons {
+  neuron     Neuron @relation(fields: [neuronId], references: [id])
+  neuronId   Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  createdAt  DateTime @default(now())
+
+  @@id([neuronId, categoryId])
+  @@index([neuronId])
+  @@index([categoryId])
+}
+
+model DashboardOnNeurons { 
+  dashboardCorrectList     Dashboard @relation(name: "dashboardCorrectList", fields: [dashboardCorrectId], references: [id], onDelete: Cascade)
+  dashboardCorrectId       Int
+  dashboardInCorrectIdList Dashboard @relation(name: "dashboardInCorrectIdList", fields: [dashboardInCorrectIdId], references: [id], onDelete: Cascade)
+  dashboardInCorrectIdId   Int
+  neuron                   Neuron    @relation(fields: [neuronId], references: [id], onDelete: Cascade)
+  neuronId                 Int
+
+  @@id([dashboardCorrectId, dashboardInCorrectIdId, neuronId])
+  @@index([dashboardCorrectId])
+  @@index([dashboardInCorrectIdId])
+  @@index([neuronId])
+}
+
+
+model Dashboard {
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  correctNeurons   DashboardOnNeurons[] @relation(name: "dashboardCorrectList")
+  incorrectNeurons DashboardOnNeurons[] @relation(name: "dashboardInCorrectIdList")
 }
 
 model Account {
@@ -58,6 +111,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -66,6 +120,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -76,6 +132,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  neurons       Neuron[]
 }
 
 model VerificationToken {
