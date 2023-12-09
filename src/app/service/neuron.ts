@@ -1,5 +1,21 @@
 import prisma from "@/lib/server/client";
+import { Neuron } from "@prisma/client";
 import dayjs from "dayjs";
+
+export async function createNeuron(userId: string, neuron: Neuron) {
+  await prisma.neuron.create({
+    data: {
+      score: 1,
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+      description: neuron.description,
+    },
+  });
+  return neuron;
+}
 
 export async function getNeurons(userId: string) {
   const day64 = dayjs().subtract(64, "days").toDate();

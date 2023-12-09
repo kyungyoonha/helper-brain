@@ -5,6 +5,8 @@ import RegistryStyledComponents from "@/lib/registryStyledComponent";
 import RegistryAntd from "@/lib/registryAntd";
 import { UIProvider } from "@/contexts";
 import AuthContext from "@/contexts/AuthContext";
+import { PlusOutlined } from "@ant-design/icons";
+import FloatButtonForm from "@/components/FloatButtonForm";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +26,10 @@ export default function RootLayout({
         <RegistryStyledComponents>
           <RegistryAntd>
             <UIProvider>
-              <AuthContext>{children}</AuthContext>
+              <AuthContext>
+                {children}
+                <FloatButtonForm />
+              </AuthContext>
             </UIProvider>
           </RegistryAntd>
         </RegistryStyledComponents>
