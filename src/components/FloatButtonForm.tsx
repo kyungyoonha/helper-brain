@@ -2,15 +2,17 @@
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { FloatButton, Modal, Form, Input, Button } from "antd";
+import InputImage from "./InputImage";
 
 const FloatButtonForm = () => {
   const [form] = Form.useForm();
-
   const [isOpenModal, setIsModalOpen] = useState(false);
 
   const onClickButton = () => {
     setIsModalOpen(true);
   };
+
+  //setFieldValue
 
   return (
     <>
@@ -35,6 +37,16 @@ const FloatButtonForm = () => {
           >
             <Input autoComplete="off" placeholder="질문을 입력해주세요." />
           </Form.Item>
+          <Form.Item>
+            <InputImage />
+          </Form.Item>
+          {/* 
+          TODO: ANTD 쓰지말기
+          - 상태정의 answers: [ { id:'', answer: '', imageUrl: ''}]
+          - 추가버튼 클릭시: { id:'', answer: '', imageUrl: ''} 추가
+          - 삭제시 순서로 제거
+          - 저장시 기존 answer 전부 삭제 후 새로 등록
+           */}
           <Form.List name={"answers"}>
             {(fields, { add, remove }) => (
               <>

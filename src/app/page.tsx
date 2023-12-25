@@ -6,6 +6,7 @@ import { useUIContext } from "@/contexts";
 
 import NeuronCardLoading from "@/components/NeuronCardLoading";
 import { useSession } from "next-auth/react";
+import InputImage from "@/components/InputImage";
 
 const HomePage = () => {
   const {
