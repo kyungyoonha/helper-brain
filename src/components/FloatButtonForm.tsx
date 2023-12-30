@@ -1,18 +1,47 @@
 "use client";
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { FloatButton, Modal, Form, Input, Button } from "antd";
+import { FloatButton, Modal, Button } from "antd";
 import InputImage from "./InputImage";
+import { useForm, SubmitHandler } from "react-hook-form";
+import styled from "styled-components";
+import FormItemInput from "./FormItemInput";
+
+export interface NeuronForm {
+  id?: string;
+  description: string;
+  imageUrl: string;
+  answers: AnswerForm[];
+}
+
+interface AnswerForm {
+  id?: string;
+  answer: string;
+  imageUrl: string;
+}
 
 const FloatButtonForm = () => {
-  const [form] = Form.useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    watch,
+  } = useForm<NeuronForm>();
+
   const [isOpenModal, setIsModalOpen] = useState(false);
+  const imageUrl = watch("imageUrl");
 
   const onClickButton = () => {
     setIsModalOpen(true);
   };
 
-  //setFieldValue
+  const onSubmit: SubmitHandler<NeuronForm> = (data) =>
+    console.log("submit", data);
+
+  const onChange = (key: any) => (value: any) => {
+    setValue(key, value);
+  };
 
   return (
     <>
@@ -29,48 +58,22 @@ const FloatButtonForm = () => {
         onCancel={() => setIsModalOpen(false)}
         footer={null}
       >
-        <Form form={form} layout="vertical">
-          <Form.Item
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormItemInput
             label="질문"
-            name={"description"}
-            rules={[{ required: true, message: "질문을 입력해주세요." }]}
-          >
-            <Input autoComplete="off" placeholder="질문을 입력해주세요." />
-          </Form.Item>
-          <Form.Item>
-            <InputImage />
-          </Form.Item>
-          {/* 
-          TODO: ANTD 쓰지말기
-          - 상태정의 answers: [ { id:'', answer: '', imageUrl: ''}]
-          - 추가버튼 클릭시: { id:'', answer: '', imageUrl: ''} 추가
-          - 삭제시 순서로 제거
-          - 저장시 기존 answer 전부 삭제 후 새로 등록
-           */}
-          <Form.List name={"answers"}>
-            {(fields, { add, remove }) => (
-              <>
-                {fields.map((field, idx) => (
-                  <Form.Item
-                    required={false}
-                    key={field.key}
-                    style={{ marginBottom: "5px" }}
-                  >
-                    <Input
-                      placeholder="할인 정보를 입력해주세요."
-                      allowClear
-                      style={{ width: "calc(100% - 80px)" }}
-                    />
-                  </Form.Item>
-                ))}
-                {!!fields.length && <br />}
-                <Button size="small" color="black" onClick={() => add()} block>
-                  할인 추가하기
-                </Button>
-              </>
-            )}
-          </Form.List>
-        </Form>
+            errorMessage={errors?.description?.message}
+            placeholder="값을 입력해주세요."
+            register={register("description", {
+              required: "값을 입력해주세요",
+            })}
+          />
+
+          <InputImage value={imageUrl} onChange={onChange("imageUrl")} />
+
+          <Button size="small" color="black" onClick={() => {}} block>
+            할인 추가하기
+          </Button>
+        </form>
       </Modal>
     </>
   );

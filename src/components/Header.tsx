@@ -61,10 +61,3 @@ const ButtonWrapper = styled.div`
     margin-left: 10px;
   }
 `;
-
-const StyledButton = styled.button`
-  padding: 10px;
-  border: 1px solid gray;
-  border-radius: 10px;
-  background: white;
-`;

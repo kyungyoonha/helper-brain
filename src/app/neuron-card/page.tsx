@@ -1,9 +1,7 @@
 "use client";
 import NeuronCard from "@/components/NeuronCard";
 import Layout from "@/components/Layout";
-import { Image } from "antd";
 import React, { useEffect } from "react";
-import styled from "styled-components";
 import { useUIContext } from "@/contexts";
 
 import NeuronCardLoading from "@/components/NeuronCardLoading";
@@ -34,9 +32,3 @@ const NeuronCardPage = () => {
   );
 };
 export default NeuronCardPage;
-
-const StyledImage = styled(Image)`
-  max-width: 100%;
-  min-width: 500px;
-  width: calc((100vh + -325px) * 0.751503);
-`;
