@@ -34,8 +34,9 @@ const InputWrapper = styled.div`
     padding: 10px;
     width: 100%;
     border-radius: 5px;
-    border: 1px solid black;
+    border: 1px solid #d9d9d9;
   }
+
   & > p {
     margin-top: 5px;
     padding: 0 5px;

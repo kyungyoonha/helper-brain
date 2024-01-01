@@ -6,11 +6,12 @@ import Image from "next/image";
 import styled from "styled-components";
 
 type Props = {
+  label: string;
   value: string;
   onChange: (value: any) => void;
 };
 
-const InputImage = ({ value, onChange }: Props) => {
+const FormItemImage = ({ label, value, onChange }: Props) => {
   const inputRef = useRef<InputRef>(null);
 
   const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +29,8 @@ const InputImage = ({ value, onChange }: Props) => {
         method: "POST",
         body: form,
       }).then((r) => r.json());
-      console.log(result);
+
+      // TODO: imageUrl -> imageKey로 변경
       const url = URL.createObjectURL(files[0]);
       onChange(url);
     }
@@ -43,7 +45,8 @@ const InputImage = ({ value, onChange }: Props) => {
   };
 
   return (
-    <>
+    <Wrapper>
+      <label>{label}</label>
       <Input
         type="file"
         accept="image/*"
@@ -54,7 +57,7 @@ const InputImage = ({ value, onChange }: Props) => {
       />
 
       <Button icon={<UploadOutlined />} onClick={onClickButton}>
-        {value ? "재업로드" : "이미지 업로드"}
+        {value ? "재 업로드" : "이미지 업로드"}
       </Button>
       {value && (
         <ImageWrapper>
@@ -69,11 +72,21 @@ const InputImage = ({ value, onChange }: Props) => {
           </div>
         </ImageWrapper>
       )}
-    </>
+    </Wrapper>
   );
 };
 
-export default InputImage;
+export default FormItemImage;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  & > button {
+    width: 150px;
+  }
+`;
 
 const ImageWrapper = styled.div`
   width: 150px;

@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { FloatButton, Modal, Button } from "antd";
-import InputImage from "./InputImage";
-import { useForm, SubmitHandler } from "react-hook-form";
-import styled from "styled-components";
+import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import FormItemInput from "./FormItemInput";
+import FormItemImage from "./FormItemImage";
+import FormListAnswers from "./FormListAnswers";
 
 export interface NeuronForm {
   id?: string;
@@ -25,12 +25,14 @@ const FloatButtonForm = () => {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors },
     watch,
   } = useForm<NeuronForm>();
 
   const [isOpenModal, setIsModalOpen] = useState(false);
   const imageUrl = watch("imageUrl");
+  const answers = watch("answers");
 
   const onClickButton = () => {
     setIsModalOpen(true);
@@ -42,6 +44,8 @@ const FloatButtonForm = () => {
   const onChange = (key: any) => (value: any) => {
     setValue(key, value);
   };
+
+  // console.log(errors);
 
   return (
     <>
@@ -68,10 +72,22 @@ const FloatButtonForm = () => {
             })}
           />
 
-          <InputImage value={imageUrl} onChange={onChange("imageUrl")} />
+          <FormItemImage
+            label="질문 이미지"
+            value={imageUrl}
+            onChange={onChange("imageUrl")}
+          />
 
-          <Button size="small" color="black" onClick={() => {}} block>
-            할인 추가하기
+          <FormListAnswers
+            errors={errors}
+            register={register}
+            control={control}
+            setValue={setValue}
+          />
+          <br />
+
+          <Button type="primary" htmlType="submit" color="black" block>
+            제출하기
           </Button>
         </form>
       </Modal>

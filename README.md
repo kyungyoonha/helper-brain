@@ -142,3 +142,12 @@ instagram: "https://instagram.com/batuhanbilginn",
 };
 
 export default siteConfig;
+
+### 관계 데이터 입력
+
+await prisma.post.create({
+data: {
+title: 'Types of relations',
+tags: { create: [{ name: 'dev' }, { name: 'prisma' }] },
+},
+})
